@@ -6,24 +6,23 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace BeastBytes\Vcard\Tests;
 
 use BeastBytes\Vcard\Vcard;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CreateVcardTest extends TestCase
 {
-    /**
-     * @dataProvider vcardDataProvider
-     */
+    #[DataProvider('vcardProvider')]
     public function test_vcard($vcard, $expected)
     {
         $this->assertSame(implode("\r\n", $expected) . "\r\n", $vcard->render());
     }
 
-    public function vcardDataProvider(): array
+    public static function vcardProvider(): \Generator
     {
-        return [
+        foreach ([
             'simple_vcard' => [
                 (new Vcard())
                     ->addProperty(Vcard::PROPERTY_KIND, Vcard::KIND_ORG)
@@ -319,6 +318,8 @@ class CreateVcardTest extends TestCase
                     'END:VCARD'
                 ]
             ]
-        ];
+        ] as $name => $yield) {
+            yield $name => $yield;
+        }
     }
 }

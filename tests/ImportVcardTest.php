@@ -6,16 +6,15 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace BeastBytes\Vcard\Tests;
 
 use BeastBytes\Vcard\Vcard;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ImportVcardTest extends TestCase
 {
-    /**
-     * @dataProvider vcardProvider
-     */
+    #[DataProvider('vcardProvider')]
     public function test_vcard_import($vcard)
     {
         $imported = Vcard::import($vcard);
@@ -24,7 +23,7 @@ class ImportVcardTest extends TestCase
         $this->assertSame($vcard, $imported->render());
     }
 
-    public function vcardProvider(): array
+    public static function vcardProvider(): array
     {
         return [
             'simple vcard' => [
